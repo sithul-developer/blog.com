@@ -24,15 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        /* - ID     PK
--  File_DV
--  Description
--  Title
--  User_ID
--   Course_ID
--  Status
 
- */
     }
 
     /**

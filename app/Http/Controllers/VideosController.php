@@ -11,7 +11,30 @@ use Illuminate\Support\Str;
 
 class VideosController extends Controller
 {
+
+
     //index_videos
+
+    public function VideoSearch(Request $request)
+    {
+        $search = $request->input('search');
+        // Perform a search using Eloquent
+        $videos = Videos::where('title', 'like', "%$search%")
+                     /* ->orWhere('content', 'like', "%$search%") */
+                     ->orWhereHas('course', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    })
+                     ->get();
+
+        // Pass the results to a view
+        return view('backend_master.videos.index', ['videos' => $videos]);
+    }
+
+
+
+
+
+
     public function index_videos(Request $request)
     {
         $videos =   Videos::where('Is_deleted', 0)->get();

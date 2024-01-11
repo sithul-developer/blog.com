@@ -13,4 +13,8 @@ class Category extends Model
     {
         return $this->belongsTo(Courses::class , );
     }
+    public function posts ()
+    {
+        return $this->belongsTo(Posts::class , );
+    }
 }

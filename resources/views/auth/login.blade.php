@@ -67,16 +67,16 @@
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
 
-                                    <form class="row g-3 needs-validation" action="" method="post" novalidate>
+                                    <form class="row g-3 needs-validation" action="{{url('/login')}}" method="post" novalidate>
 
                                         {{ csrf_field() }}
 
                                         <div class="col-12">
-                                            <label for="yourEmail" class="form-label">Email</label>
                                             <div class="input-group has-validation">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-briefcase-fill"></i></span>
                                                 <input type="email" value="{{ old('email') }}" name="email"
                                                     class="form-control  @error('email') is-invalid @enderror"
-                                                    id="yourEmail" required>
+                                                    id="yourEmail" placeholder="Email" required style="font-size: 15px">
                                                     <div class="invalid-feedback">
                                                         Please provide a valid email.
                                                       </div>
@@ -88,11 +88,12 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Password</label>
+                                    
                                             <div class="input-group has-validation">
-                                                <input type="password" name="password"  id="yourPassword"
+                                                <span class="input-group-text" id="basic-addon1"><i class="ri-lock-2-fill"></i></span>
+                                                <input type="password" name="password"  id="yourPassword" 
                                                     class="form-control  @error('password') is-invalid @enderror"
-                                                    value="{{ old('password') }}" required>
+                                                    value="{{ old('password') }}" placeholder="Password" required style="font-size: 15px">
                                                     <div class="invalid-feedback">
                                                         Please provide a valid password.
                                                       </div>
@@ -108,15 +109,15 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="remember"
                                                     value="true" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                                                <label class="form-check-label" for="rememberMe" style="font-size: 15px">Remember me</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                            <button class="btn btn-primary w-100" type="submit" style="font-size: 16px">Login</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0">Don't have account? <a
-                                                    href="{{ url('register') }}">Create an account</a></p>
+                                            <p class="small mb-0" style="font-size: 15px">Don't have account? <a
+                                                    href="{{ url('register') }} ">Create an account</a></p>
                                         </div>
                                     </form>
                                 </div>

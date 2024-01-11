@@ -9,19 +9,20 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     //
-    public function index_course_cate()
+    public function index_category()
     {
         //
-        $course_category = Category::where('Is_deleted', 0)->get();
-        /* $data['header_title'] = 'Create User |' */
-        return view('backend_master.course_cate.index', compact('course_category'));
+        $category = Category::where('Is_deleted', 0)->get();
+        $data['active_class'] = 'Category';
+        return view('backend_master.category.index',$data, compact('category'));
     }
-    public function  create_course_category()
+    public function  create_category()
     {
         //
-        return view('backend_master.course_cate.create');
+        $data['active_class'] = 'Category';
+        return view('backend_master.category.create' ,$data);
     }
-    public function store_course_category(Request $request)
+    public function store_category(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -29,13 +30,12 @@ class CategoryController extends Controller
                 'name' => 'required',
                 'description' => 'required',
             ]);
-            $course_cate = new Category();
-            $course_cate->name = trim($request->name);
-            $course_cate->description = trim($request->description);
-
-            $course_cate->save();
+            $category = new Category();
+            $category->name = trim($request->name);
+            $category->description = trim($request->description);
+            $category->save();
             DB::commit();
-            return redirect('/panel/dashboard/course_category')->with('success', "User added successfully!");
+            return redirect('/panel/dashboard/category')->with('success', "User added successfully!");
         } catch (\Exception $e) {
             DB::rollback();
             $request->validate([
@@ -46,23 +46,25 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', "User added successfully!");
         }
     }
-    public function edit_course_category($id)
+    public function edit_category($id)
     {
+        $data['active_class'] = 'Category';
 
-        $course_category = Category::find($id);
-        return view('backend_master.course_cate.edit', compact('course_category'));
+
+        $category = Category::find($id);
+        return view('backend_master.category.edit',$data, compact('category'));
     }
 
-    public function update_course_category(Request $request, $id)
+    public function update_category(Request $request, $id)
     {
         DB::beginTransaction();
         try {
-            $users = Category::findOrFail($id);
-            $users->name = $request->input('name');
-            $users->description = $request->input('description');
-            $users->save();
+            $category = Category::findOrFail($id);
+            $category->name = $request->input('name');
+            $category->description = $request->input('description');
+            $category->save();
             DB::commit();
-            return redirect('/panel/dashboard/course_category')->with('success', 'Category update successfully!');
+            return redirect('/panel/dashboard/category')->with('success', 'Category update successfully!');
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -70,21 +72,21 @@ class CategoryController extends Controller
       /*   dd($request->all()); */
     }
      //destroy
-     public function delete_course_category(Request $request)
+     public function delete_category(Request $request)
      {
 
-         $Courses_Category_id = $request->input('Courses_Category');
-         $Courses_Category_id = Category::find($Courses_Category_id);
-         $Courses_Category_id->Is_deleted = 1;
-         $Courses_Category_id->save();
+         $category_id = $request->input('Courses_Category');
+         $category_id = Category::find($category_id);
+         $category_id->Is_deleted = 1;
+         $category_id->save();
          return redirect()->back()->with('success', ' Category is delete successfully!');
      }
 
-     public function view_course_category($id)
+     public function view_category($id)
      {
-         $course_category = Category::find($id);
+         $category = Category::find($id);
          $data['header_title'] = 'Edit User |';
-         return view('backend_master.course_cate.view', $data, compact('course_category', ));
+         return view('backend_master.category.view', $data, compact('category', ));
      }
 
 

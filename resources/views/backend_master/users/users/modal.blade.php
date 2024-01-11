@@ -7,7 +7,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirmation</h5>
+                    <h5 class="modal-title">Confirmation </h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -16,7 +16,7 @@
             align-items: center;">
                         <i class="bi bi-exclamation-octagon text-xl text-danger"
                             style="font-size: 2rem;    margin-right: 1rem"> </i>Are you sure you want to go?
-                        <input type='text' name='user' id='deleteid' />
+                        <input type='hidden' name='user' id='deleteid'/>
 
                     </div>
                 </div>

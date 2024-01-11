@@ -11,15 +11,10 @@
         </nav>
     </div><!-- End Page Title -->
     <section class="section">
-
-
         <div class="row">
-
             <div class="col-lg-6">
-
                 <div class="card m-0 pt-3">
                     <div class="card-body">
-
                         <form class="row g-3 needs-validation" method="post"
                             action="{{ url('panel/dashboard/users/update/' . $users->id) }}" novalidate method="POST"
                             enctype="multipart/form-data">
@@ -87,16 +82,12 @@
                                                 class="spinner-border"></i>Backe to List </a></button>
                                     <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-save "
                                             style="margin-right: 10px "></i>Update</button>
-
                                 </div>
-
                             </div>
-
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -109,7 +100,6 @@
                 $('#delete_id').val(users_id);
             });
         });
-
 
         $(document).ready(function() {
             $(document).on('click', '#btn_store ', function() {
@@ -127,33 +117,4 @@
         });
     </script>
 
-    <style>
-        th {
-            font-size: 0.90rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        td {
-            font-size: 0.85rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        .form-label {
-            font-family: Krasar, sans-serif;
-            font-size: 16px;
-        }
-
-        .form-control {
-            padding: .575rem .75rem;
-            font-size: 0.85rem;
-
-        }
-
-        .form-select {
-
-            padding: .575rem 2.25rem 0.585rem .75rem;
-            font-size: 0.85rem;
-
-        }
-    </style>
 @endsection

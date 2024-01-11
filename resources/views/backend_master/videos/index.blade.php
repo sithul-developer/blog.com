@@ -12,13 +12,15 @@
                 </button></a>
             {{--       @endcan --}}
 
-            <form class="search-form d-flex align-items-center" method="POST" action="#"
+            <form class="search-form d-flex align-items-center" action="{{ route('course.search') }}" method="get"
                 style="position: absolute; right: 28px;}">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Searah everthing"
+                    <input type="text" class="form-control" name="search" placeholder="Searah everthing"
                         aria-describedby="basic-addon2">
-                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i> </span>
+                        <button type="submit" class="input-group-text" id="basic-addon2">  <span  ><i class="bi bi-search"></i> </span></button>
+
                 </div>
+                <button type="submit" class="input-group-text mx-3" id="basic-addon2">  <span  ><i class="bi bi-arrow-clockwise" "></i> </span></button>
             </form>
         </nav>
 
@@ -45,65 +47,77 @@
                                         <th scope="col"id="col">Action</th>
                                     </tr>
                                 </thead>
-                                @foreach ($videos as $video)
-                                    <tbody>
-                                        <tr>
-                                            <td class="col">{{ $video->id }}</td>
-                                            <td scope="row">
-                                                <iframe  width="85" height="48" style="border-radius: 5px; " src="{{ $video->videos }}" frameborder="0" allowfullscreen"></iframe>
+                                @if ($videos->count() > 0)
+                                    @foreach ($videos as $video)
+                                        <tbody>
+                                            <tr>
+                                                <td class="col">{{ $video->id }}</td>
+                                                <td scope="row">
+                                                    <iframe width="85" height="48" style="border-radius: 5px; "
+                                                        src="{{ $video->videos }}" frameborder="0"
+                                                        allowfullscreen"></iframe>
 
 
-                                                            </td>
-                                                            <td class="col" id="column">{{ $video->course->name ?? 'None' }}</td>
+                                                </td>
+                                                <td class="col" id="column">{{ $video->course->name ?? 'None' }}</td>
 
-                                                            <td class="col" style=" width:300px" id="column">
-                                                                <p class="textSort">{{ $video->title }}</p>
-                                                                </td>
+                                                <td class="col" style=" width:300px" id="column">
+                                                    <p class="textSort">{{ $video->title }}</p>
+                                                </td>
 
-                                                            <td class="col" id="column">{{ $video->description }}</td>
-                                                            <td class="col" id="column">
+                                                <td class="col" id="column">{{ $video->description }}</td>
+                                                <td class="col" id="column">
 
-                                                                <a href="{{ url('/panel/dashboard/video/' . $video->id) }}" <button
-                                                                    class="badge  text-white  btn btn-{{ $video->status ? 'danger' : 'primary' }}">{{ $video->status ? 'Inactive' : 'Active' }}
-                                                                    </button> </a>
-                                                            </td>
+                                                    <a href="{{ url('/panel/dashboard/video/' . $video->id) }}" <button
+                                                        class="badge  text-white  btn btn-{{ $video->status ? 'danger' : 'primary' }}">{{ $video->status ? 'Inactive' : 'Active' }}
+                                                        </button> </a>
+                                                </td>
 
-                                                            <td class="col" id="column">
-                                                                {{ $video->created_at->format('d/M/Y') }}
-                                                            </td>
-                                                            <td class="col" id="column">
-                                                                {{ Carbon\Carbon::parse($video->update_at)->format('d/M/Y') }}
-                                                            </td>
-                                                            <td class="col" id="column">
+                                                <td class="col" id="column">
+                                                    {{ $video->created_at->format('d/M/Y') }}
+                                                </td>
+                                                <td class="col" id="column">
+                                                    {{ Carbon\Carbon::parse($video->update_at)->format('d/M/Y') }}
+                                                </td>
+                                                <td class="col" id="column">
 
-                                                                <div class="btn-group" role="group" aria-label="Basic outlined example">
-
-
-                                                                    <a href="{{ url('/panel/dashboard/videos/edit/' . $video->id) }}"><i
-                                                                            class="bi bi-pencil-square  btn btn-sm btn-outline-success btn-outline-success"></i>
-                                                                    </a>
+                                                    <div class="btn-group" role="group"
+                                                        aria-label="Basic outlined example">
 
 
+                                                        <a href="{{ url('/panel/dashboard/videos/edit/' . $video->id) }}"><i
+                                                                class="bi bi-pencil-square  btn btn-sm btn-outline-success btn-outline-success"></i>
+                                                        </a>
 
-                                                                    <button type="submit" value="{{ $video->id }}" id="btnDelete"
-                                                                        class="btn btn-sm btn-outline-danger "
-                                                                        style="border-radius: 5px ;margin: 0px 6px 0px 5px;" <a
-                                                                        href="" value="{{ $video->id }}"></a><i
-                                                                            class="bi bi-trash"></i>
-                                                                    </button>
 
-                                                                    <a
-                                                                        href="{{ url('/panel/dashboard/course_category/view/' . $video->id) }}"><i
-                                                                            class="bi bi-eye    btn btn-sm btn-outline-success btn-outline-success"></i>
-                                                                    </a>
-                                                                </div>
 
-                                                            </td>
-                                                        </tr>
+                                                        <button type="submit" value="{{ $video->id }}" id="btnDelete"
+                                                            class="btn btn-sm btn-outline-danger "
+                                                            style="border-radius: 5px ;margin: 0px 6px 0px 5px;" <a
+                                                            href="" value="{{ $video->id }}"></a><i
+                                                                class="bi bi-trash"></i>
+                                                        </button>
 
-                                                    </tbody>
-     @endforeach
+                                                        <a
+                                                            href="{{ url('/panel/dashboard/course_category/view/' . $video->id) }}"><i
+                                                                class="bi bi-eye    btn btn-sm btn-outline-success btn-outline-success"></i>
+                                                        </a>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    @endforeach
+                                    @else
+                                    <p style="display: flex;
+                                    justify-content: center;
+                                    position: absolute;
+                                    bottom: 0;
+                                    margin: 12px -1px 9px;
+                                    left: 43%;">No results found.</p>
+                                @endif
                             </table>
+
 
                             <!-- End Table with stripped rows -->
                             @include('backend_master.videos.modal')
@@ -148,6 +162,7 @@
                 color: #707070 font-size: 0.80rem;
 
             }
+
             #myIframe {
                 width: 100%;
                 height: 48px;

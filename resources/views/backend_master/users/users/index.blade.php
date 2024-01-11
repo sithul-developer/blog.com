@@ -1,64 +1,79 @@
-@extends('backend_master.index')
-@section('content')
-    <section>
-        <div class="pagetitle">
-            <h1>Form Layouts</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Layouts</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
-        @can('user view')
-            <a href=" {{ url('/panel/dashboard/users/create') }}">
-                <button type="submit" class="btn btn-secondary btn-md mb-2  "
-                    style="font-size: 15px;
-        font-weight: bold;
-        "><i class="bi bi-plus-circle me-2 "
-                        onclick="this.classList.toggle('button--loading')"></i> Add User</button></a>
-        @endcan
+ @extends('backend_master.index')
+ @section('content')
+     <section>
+         <nav class="pb-2" style="display: flex">
+             {{--   @can('role view') --}}
+             <a href=" {{ url('/panel/dashboard/users/create') }}">
+                 <button type="submit" class="btn  btn-outline-secondary      btn-md mb-2  " style="font-size: 15px;"><i
+                         class="bi bi-plus-circle me-2 " onclick="this.classList.toggle('button--loading')"></i> Create
+                     Users</button>
+             </a>
+             {{--     @endcan --}}
+             <form class="search-form d-flex align-items-center" method="POST" action="#"
+                 style="position: absolute; right: 28px;">
+                 <div class="input-group">
+                     <input type="text" class="form-control" placeholder="Searah everthing"
+                         aria-describedby="basic-addon2">
+                     <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i> </span>
+                 </div>
+             </form>
+         </nav>
+         <section class="section">
+             <div class="row">
+                 <div class="col-lg-12">
+                     <div class="card">
+                         <div class="card-body" style="overflow-x:auto;">
+                             <div class="card-boxd ">
+
+                                 <h5 class="card-title"> <span>All of User</span></h5>
+                                 {{-- <form class="search-form d-flex  align-items-center" action="{{ route('course.search') }}"
+                                     method="get" style="position: absolute ; right:0px ;top:13px ">
+                                     <div class="input-group">
+                                         <input type="text" class="form-control" name="search"
+                                             placeholder="Searah everthing" aria-describedby="basic-addon2">
+                                         <button type="submit" class="input-group-text" id="basic-addon2"><i
+                                                 class="bi bi-search"></i></button>
+                                     </div>
+                                     <button type="submit" class="input-group-text mx-3" id="basic-addon2">
+                                         <i class="bi bi-arrow-clockwise"></i> </button>
+                                 </form> --}}
+                             </div>
+
+                             <table class="table table-hover   striped">
+                                 <thead>
+                                     <tr>
+                                         <th scope="col" id="col">No</th>
+                                         <th scope="col" id="col">User Name</th>
+                                         <th scope="col" id="col">Email</th>
+                                         <th scope="col" id="col">Role</th>
+                                         <th scope="col" id="col">User_type</th>
+                                         <th scope="col" id="col">Create_at</th>
+                                         <th scope="col" id="col">Update_at</th>
+                                         <th scope="col" id="col">Action</th>
+                                     </tr>
+                                 </thead>
+                                 @foreach ($users as $user)
+                                     <tbody>
+                                         <tr>
+                                             <td class="col" id="column">{{ $user->id }}</td>
+                                             <td class="col" id="column">{{ $user->name }}</td>
+                                             <td class="col" id="column">{{ $user->email }}</td>
+                                             <td class="col" id="column">
+                                                 @foreach ($user->roles as $role)
+                                                     <span class="badge bg-secondary">{{ $role->name }}</span>
+                                                 @endforeach
+                                             </td>
+                                             <td class="col" id="column">{{ $user->user_type }}</td>
 
 
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body" style="overflow-x:auto;">
-                            <!-- Table with stripped rows -->
-                            <table class="table table-hover  table-bordered  mt-3">
-                                <thead class="table-secondary	">
-                                    <tr>
-                                        <th scope="row">No</< /th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role Name</th>
-                                        <th>Create_At</th>
-                                        <th>Update_At</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    @foreach ($users as $user)
-                                        <tr>
-                                            <td class="col">{{ $user->id }}</td>
-                                            <td class="col">{{ $user->name }}</td>
-                                            <td class="col">{{ $user->email }}</td>
-                                            <td class="col">
-                                                @foreach ($user->roles as $role)
-                                                    <span class="badge bg-secondary">{{ $role->name }}</span>
-                                                @endforeach
-                                            </td>
-                                            <td class="col">{{ $user->created_at->format('d-M-Y-h:i A') }}</td>
-                                            <td class="col">
-                                                {{ Carbon\Carbon::parse($user->update_at)->format('d-M-Y-h:i A') }}</td>
-
-                                            <td class="col">
+                                             <td class="col" id="column">
+                                                 {{ $user->created_at->format('d/M/Y') }}
+                                             </td>
+                                             <td class="col" id="column">
+                                                 {{ Carbon\Carbon::parse($user->update_at)->format('d/M/Y') }}
+                                             </td>
+                                             <td class="col">
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                    @can('user view')
                                                         <a href="{{ url('/panel/dashboard/users/edit/' . $user->id) }}"><i
                                                                 class="bi bi-pencil-square  btn btn-sm btn-outline-success btn-outline-success"></i>
                                                         </a>
@@ -71,119 +86,35 @@
                                                         <a href="{{ url('/panel/dashboard/users/view/' . $user->id) }}"><i
                                                                 class="bi bi-eye    btn btn-sm btn-outline-success btn-outline-success"></i>
                                                         </a>
-                                                    @endcan
-                                                    <a href="{{ url('panel/dashboard/users/' . $user->id) }}"
+
+                                                    <a href="{{ url('panel/dashboard/user/' .$user->id) }}"
                                                         style="border-radius: 5px ;margin: 0px 6px 0px 5px;"
-                                                        class=" {{-- bi bi-pencil-square --}}  btn btn-sm btn-outline-success btn-outline-{{ $user->status ? 'danger' : 'primary' }}">{{ $user->status ? 'Inactive' : 'Active' }}</a>
-
+                                                        class="btn btn-sm btn-outline-success btn-outline-{{ $user->status ? 'primary' : 'danger' }}">{{ $user->status ? 'Active' : ' Inactive' }}</a>
                                                 </div>
-
                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 @endforeach
+                             </table>
+                             @include('backend_master.users.users.modal')
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </section>
 
-                                        </tr>
-                                    @endforeach
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+         <script>
+             $(document).ready(function() {
+                 $(document).on('click', '#btnDelete ', function() {
+                     var role = $(this).val();
+                     $('#deletetModal').modal('show')
+                     $('#deleteid').val(role);
+                 });
+             });
 
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
-                            @include('backend_master.users.users.modal')
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $(document).on('click', '#btnDelete ', function() {
-                    var user = $(this).val();
-                    $('#deletetModal').modal('show')
-                    $('#deleteid').val(user);
-                });
-            });
-        </script>
-
-        <style>
-            th {
-                font-size: 0.80rem;
-                font-family: Krasar, sans-serif;
-            }
-
-            td {
-                font-size: 0.85rem;
-                font-family: Krasar, sans-serif;
-            }
-
-            .form-label {
-                font-family: Krasar, sans-serif;
-                font-size: 16px;
-            }
-
-            .form-control {
-                padding: .575rem .75rem;
-                font-size: 0.85rem;
-
-            }
-
-            .form-select {
-
-                padding: .575rem 2.25rem 0.585rem .75rem;
-                font-size: 0.85rem;
-
-            }
-
-            .button {
-                position: relative;
-                padding: 8px 16px;
-                background: #009579;
-                border: none;
-                outline: none;
-                border-radius: 2px;
-                cursor: pointer;
-            }
-
-            .button:active {
-                background: #007a63;
-            }
-
-            .button__text {
-                font: bold 20px "Quicksand", san-serif;
-                color: #ffffff;
-                transition: all 0.2s;
-            }
-
-            .button--loading .button__text {
-                visibility: hidden;
-                opacity: 0;
-            }
-
-            .button--loading::after {
-                content: "";
-                position: absolute;
-                width: 16px;
-                height: 16px;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                margin: auto;
-                border: 4px solid transparent;
-                border-top-color: #ffffff;
-                border-radius: 50%;
-                animation: button-loading-spinner 1s ease infinite;
-            }
-
-            @keyframes button-loading-spinner {
-                from {
-                    transform: rotate(0turn);
-                }
-
-                to {
-                    transform: rotate(1turn);
-                }
-            }
-        </style>
-    </section>
-@endsection
+           
+         </script>
+     
+     </section>
+ @endsection

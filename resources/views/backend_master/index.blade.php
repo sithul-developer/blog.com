@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>{{ !empty($header_title) ? $header_title : '' }} Blog</title>
+    <title>{{ !empty($active_class) ? $active_class : '' }} | Blog</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -39,45 +39,28 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
-
-
 <body>
-
 {{-- <div>
     <div class="loader">
         <p>Loading...</p>
     </div>
 </div> --}}
 <div class="content">
-
         <!-- ======= Header ======= -->
         @include('backend_master.layouts.navbar')
-
         <!-- End Header -->
-
         <!-- ======= Sidebar ======= -->
         @include('backend_master.layouts.sidebar')
-
         <!-- End Sidebar-->
-
         <main id="main" class="main">
 
             @yield('content')
-
         </main> <!-- End #main -->
-
         <!-- ======= Footer ======= -->
         @include('backend_master.layouts.footer')
 
-
     </div>
-
-
-
     <!-- End Footer -->
-
-
-
     <!-- Vendor JS Files -->
     <script src="{{ url('./assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ url('./assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -87,9 +70,11 @@
     <script src="{{ url('./assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ url('./assets/vendor/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ url('./assets/vendor/php-email-form/validate.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url('./assets/js/jquery.min.js') }}"></script>
+ {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
     <!-- Template Main JS File -->
     <script src="{{ url('./assets/js/main.js') }}"></script>
+    <script src="{{ url('./assets/js/multiselect-dropdown.js') }}"></script>
   {{--   <script>
         window.addEventListener("load", function () {
     const loader = document.querySelector(".loader");

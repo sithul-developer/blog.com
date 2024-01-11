@@ -1,13 +1,13 @@
 <!-- Start-Delete-Modal-->
 
 <div class="modal fade" id="deletetModal">
-    <form action="{{ url('panel/dashboard/delete/roles') }} " method="POST">
+    <form action="{{ url('panel/dashboard/role/delete') }} " method="POST">
         @csrf
         @method('DELETE')
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirmation </h5>
+                    <h5 class="modal-title">Confirmation</h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>

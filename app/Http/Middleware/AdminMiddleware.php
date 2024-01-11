@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class AdminMiddleware
 
 {
@@ -20,10 +21,18 @@ class AdminMiddleware
 
         $response = $next($request);
         //If the status is not approved redirect to login
-        if(Auth::check() && Auth::user()-> status != 0){
+        /*  if(Auth::check() && Auth::user()->'user_type:1'){
          Auth::logout();
          return redirect('/login')->withErrors('Your Account Disabled !');
+        } */
+
+        if (auth()->check() && auth()->user()->user_type == 1) {
+            // Perform actions specific to user_type 0
+            // For example, you can redirect or perform additional checks
+            // Here, we'll just return a response for demonstration
+            return redirect('/login')->withErrors('Your Account Disabled !');
         }
-        return $response;
+
+        return $next($request);
     }
 }

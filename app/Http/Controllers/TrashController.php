@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Courses;
+use App\Models\User;
 use App\Models\Videos;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class TrashController extends Controller
 {
@@ -14,11 +16,11 @@ class TrashController extends Controller
 
     public function index_trash()
     {
+        $users = User::where('Is_deleted', 1)->get();
         $category = Category::where('Is_deleted', 1)->get();
-        $courses = Courses::where('Is_deleted', 1)->get();
-        $videos = Videos::where('Is_deleted', 1)->get();
-        $data['header_title'] = 'Trash |';
-        return view("backend_master.trash.index", $data, ["category" => $category, "courses" => $courses, "videos" => $videos]);
+        $permission = Permission::where('Is_deleted', 1)->get();
+        $data['active_class'] = 'Trash';
+        return view("backend_master.trash.index", $data, [ "users"=>$users, "category" => $category,  'permission' => $permission]);
     }
 
     //
@@ -30,33 +32,21 @@ class TrashController extends Controller
         return redirect()->back()->with("success", " dfd");
     }
     //
-    public function destroy_course($id)
+   
+//
+public function delete_user($id)
     {
-       /*  $course = Courses::find($id);
-
-        $path = $course->getImage();
-
-        if (Storage::exists($path)) {
-            Storage::delete($path);
-
-        }
-        $course->delete(); */
-        $course = Courses::find($id);
-
-        if(file_exists(public_path('storage//media/'.$course->image))){
-            unlink(public_path('storage//media/'.$course->image));
-          }else{
-            dd('File does not exists.');
-          }
-          $course->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
         // redirect to route
         return redirect()->back()->with("success", " dfd");
     }
-    public function destroy_video($id)
+
+    //
+    public function delete_per( $id)
     {
-        $video = Videos::findOrFail($id);
-        $video->delete();
-        // redirect to route
-        return redirect()->back()->with("success", " dfd");
+        $permission = Permission::findOrFail($id);
+        $permission->delete();
+        return back()->with('success', ' Category is delete successfully!');
     }
 }

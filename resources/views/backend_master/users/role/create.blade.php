@@ -11,61 +11,43 @@
         </nav>
     </div><!-- End Page Title -->
     <section class="section">
-
-
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                 <div class="card m-0 pt-3">
                     <div class="card-body">
-                        <form class="row g-3 needs-validation" method="post" action="{{ route('role.store') }}" novalidate>
+                        <form class="row g-3 needs-validation" action="{{ url('/panel/dashboard/role/store') }}" method="POST"
+                            novalidate enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="col-12">
                                 <label for="NameRole" class="form-label">Name Role <span
                                         class="text-danger ">*</span></label>
-                                <input type="text" value="{{ old('role') }}" name="role" id="role"
-                                    placeholder="Name role"
+                                <input type="text" value="{{-- {{ $permission->name }}" --}}" name="name" id="name"
+                                    placeholder="Please input role"
                                     class="form-control @error('role') is-invalid @enderror has-validation " required>
 
-                                @if ($errors->has('role'))
+                                @if ($errors->has('name'))
                                     <div class="text-danger text-left " style="font-size:14px">
-                                        {{ $errors->first('role') }}
+                                        {{ $errors->first('name') }}
                                     </div>
                                 @endif
                             </div>
-                            <div class="col-12">
-                                <label for="validationCustom04" class="form-label">Permisson <span
-                                        class="text-danger">*</span></label>
-                                {{--   @foreach ($permissions as $permission)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name='permission[]'
-                                            value="{{ $permission->id }}" id="{{ $permission->id }}">
-                                        <label class="form-check-label" for="{{ $permission->id }}">
-                                            {{ $permission->name }}
-                                        </label>
-                                    </div>
-                                @endforeach --}}
+                            <label for="NameRole" class="form-label">Permission <span class="text-danger ">*</span></label>
 
-                                <div class="">
-                                @foreach($permissions as $permission)
-                                        <label class=" items-center mt-3">
-                                            <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" name="permissions[]" value="{{$permission->id}}"
-                                            ><span class="ml-2 mx-2 text-gray-700">{{ $permission->name }}</span>
-                                        </label>
-                            @endforeach
-                        </div>
-
-                        {{--
+                            <div class="row my-2">
                                 @foreach ($permissions as $permission)
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="permissions[]"
-                                            id="checkPermission{{ $permission->id }}" value="{{ $permission->name }}">
-                                        <label class="form-check-label"
-                                            for="checkPermission{{ $permission->id }}">{{ $permission->name }}</label>
+                                    <div class="col-3 form-check">
+                                        <input type="checkbox" id="gridCheck1" class="form-checkbox text-blue-600"
+                                            name="permission[]" value="{{ $permission->id }}" <label
+                                            class="form-check-label  " for="gridCheck1">
+                                            <span style="font-size: 16px">
+                                                {{ $permission->name }}
+
+                                            </span>
+                                        </label>
                                     </div>
-                                @endforeach--}}
-
-
+                                @endforeach
                             </div>
+
                             <div class="modal-footer">
                                 <div class="text-left">
                                     <button type="submit" class="btn btn-secondary  btn-sm"><a
@@ -109,33 +91,5 @@
         });
     </script>
 
-    <style>
-        th {
-            font-size: 0.90rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        td {
-            font-size: 0.85rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        .form-label {
-            font-family: Krasar, sans-serif;
-            font-size: 16px;
-        }
-
-        .form-control {
-            padding: .575rem .75rem;
-            font-size: 0.85rem;
-
-        }
-
-        .form-select {
-
-            padding: .575rem 2.25rem 0.585rem .75rem;
-            font-size: 0.85rem;
-
-        }
-    </style>
+   
 @endsection

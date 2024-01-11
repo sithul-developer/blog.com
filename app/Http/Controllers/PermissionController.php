@@ -2,120 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Validate;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
 {
+
     function __construct()
     {
-        $this->middleware('permission:role view', ['only' => ['store_role']]);
+        /* $this->middleware('permission:permission-list|permission-create|permission-edit|permission-delete', ['only' => ['index','store']]); */
+        /*   $this->middleware('permission:permission-create', ['only' => ['create','store']]);
+         $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:permission-delete', ['only' => ['destroy']]); */
     }
 
-    /// ================= Permission =================
 
-    public function index_permission()
-    {
-        return view('backend_master.permission.index');
+    public function index()
+    {    $data['active_class'] = 'Permission'; 
+        $permissions = Permission::where('Is_deleted', 0)->latest()->paginate(9); 
+        return view('backend_master.permission.index', $data, ['permissions' => $permissions]);
     }
-    public function store_permission(Request $request)
-    {
 
-        $permission = new Permission();
-        $permission->name = $request->permission;
+
+    public function create()
+    {
+        $data['active_class'] = 'Permission'; 
+        $permissions = Permission::orderBy('id', 'DESC')->where('Is_deleted', 0)->paginate(7);
+        return view('backend_master.permission.create ',$data, ['permissions' => $permissions]);
+    }
+    /* public function create_permission()
+    {
+        $permissions = Permission::orderBy('id', 'DESC')->where('Is_deleted', 0)->paginate(7);
+        return view('backend_master.permission.create', ['permissions' => $permissions]);
+    } */
+
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:permissions,name',
+        ]);
+        Permission::create(['name' => $request->input('name')]);
+        return redirect('/panel/dashboard/permission')->with('success', 'Permission created successfully.');
+    }
+
+
+    public function show($id)
+    {
+        $permission = Permission::find($id);
+
+        return view('backend_master.permission.index ', compact('permission'));
+    }
+
+
+    public function edit($id)
+    {
+        $data['active_class'] = 'Permission'; 
+        
+        $permission = Permission::find($id);
+        return view('backend_master.permission.edit',$data, compact('permission'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $permission = Permission::find($id);
+        $permission->name = $request->input('name');
         $permission->save();
-        return back()->with('success ', 'permission has be create successfully ');
+
+        return redirect('/panel/dashboard/permission')
+            ->with('success', 'Permission updated successfully.');
     }
 
-    //================= Role =================
-    public function index_role()
+    public function delete(Request $request)
     {
-        $permissions = Permission::all();
-        $roles =   Role::where('Is_deleted', 0)->latest()->paginate(5);
-        $data['header_title'] = 'Role |';
-        return view('backend_master.users.role.index', $data, compact('roles', 'permissions'));
+        $permission_id = $request->input('permission');
+        $permission_id = Permission::findOrFail($permission_id);
+        $permission_id->Is_deleted = 1;
+        $permission_id->save();
+        return back()->with('success', ' Category is delete successfully!');
     }
 
-    //==================== Create ====================
-
-    public function create_role()
+    public function destroy($id)
     {
-        $permissions = Permission::all();
-        return view('backend_master.users.role.create', ['permissions' => $permissions ,]);
-    }
-    //==================== Store ====================
-    public function store_role(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-
-            $this->validate($request, [
-                'role' => 'required|unique:roles,name',
-                'permission' => 'required',
-            ]);
-
-            $role = new Role();
-            $role->name = $request->role;
-            $role->syncPermissions($request->permission);
-
-            $role->save();
-            DB::commit();
-            return redirect('/panel/dashboard/role/index')->with('success', "User added successfully!");
-        } catch (\Exception $th) {
-            $this->validate($request, [
-                'role' => 'required|unique:roles,name',
-                'permission' => 'required',
-            ]);
-            return redirect()->back()->with('error', 'permission has be create successfully ');
-        }
-    }
-    //==================== Edit ====================
-    public function edit_role($id)
-    {
-        $roles = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
-            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
-            ->all();
-        return view('backend_master.users.role.edit', compact('roles', 'permission', 'rolePermissions'));
-    }
-    //==================== Update ====================
-    public function update_role(Request $request, $id)
-    {
-        DB::beginTransaction();
-        try {
-            $role = Role::findOrFail($id);
-            $role->name = $request->role;
-            $role->syncPermissions($request->permission);
-
-            $role->save();
-            DB::commit();
-            return redirect('/panel/dashboard/role')->with('success', "User added successfully!");
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
-    }
-    //==================== Edit ====================
-    public function view_role($id)
-    {
-        $roles = Role::find($id);
-        $permissions = Permission::find($id);
-        $data['header_title'] = 'Edit User |';
-        return view('backend_master.users.role.view', $data, compact('permissions' ,'roles'));
-    }
-    //==================== Destroy ====================
-    public function  destroy_roles(Request $request)
-    {
-       /*  dd($request->all()); */
-        $role_id = $request->input('role');
-        $role_id = Role::findOrFail($role_id);
-        $role_id-> Is_deleted = 1;
-        $role_id->save();
-        return redirect()->back()->with('success', ' Category is delete successfully!');
+        Permission::find($id)->delete();
+        return redirect()->route('permissions.index')
+            ->with('success', 'Permission deleted successfully');
     }
 }

@@ -11,45 +11,48 @@ use Spatie\Permission\Models\Role;
 class UsersController extends Controller
 {
     //
-    function __construct()
+  /*   function __construct()
     {
-        $this->middleware('role_or_permission:user view', ['only' => ['create']]);
-    }
+          $this->middleware('role_or_permission:user view', ['only' => ['create']]);
+    } */
 
     // index
     public function index_user(Request $request)
     {
+
         $roles = Role::all();
         $users =   User::where('Is_deleted', 0)->latest()->paginate(5);
-        $data['header_title'] = 'User |';
+        $data['active_class'] = 'User';
         return view('backend_master.users.users.index', $data, compact('users', 'roles'));
     }
 
     // create
     public function create_user(Request $request)
     {
-        $roles = Role::all();
-        $data['header_title'] = 'Create User |';
+        $roles = Role::orderBy('id', 'DESC')->where('Is_deleted', 0)->get();
+        $data['active_class'] = 'User';
         return view('backend_master.users.users.create', $data, compact('roles'));
     }
     // store
     public function store_user(Request $request)
     {
+
         DB::beginTransaction();
         try {
             $request->validate([
                 'email' => 'required|email:rfc,dns|unique:users,email',
                 'name' => 'required|unique:users,name',
                 'password' => 'required|min:8',
-                'user_type' => 'required',
+                'role_name' => 'required',
 
             ]);
 
             $user = new User();
             $user->name = trim($request->name);
             $user->email = trim($request->email);
+            $user->user_type = trim($request->user_type);
             $user->password = Hash::make($request->password);
-            $user->syncRoles($request->user_type);
+            $user->syncRoles($request->role_name);
             $user->save();
             DB::commit();
             return redirect('/panel/dashboard/users')->with('success', "User added successfully!");
@@ -59,21 +62,22 @@ class UsersController extends Controller
                 'email' => 'required|email:rfc,dns|unique:users,email',
                 'name' => 'required|unique:users,name',
                 'password' => 'required|min:8',
-                'user_type' => 'required',
-
             ]);
+
             return redirect()->back()->with('error', "User added successfully!");
         }
+        /* dd($request->all()); */
     }
     // Edit
     public function edit_user($id)
     {
         $users = User::findOrFail($id);
         $roles = Role::get();
+        $data['active_class'] = 'User';
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-        return view('backend_master.users.users.edit', compact('users', 'roles', 'rolePermissions'));
+        return view('backend_master.users.users.edit',$data, compact('users', 'roles', 'rolePermissions'));
     }
     // View
 
@@ -81,7 +85,7 @@ class UsersController extends Controller
     {
         $users = User::find($id);
         $data['header_title'] = 'Edit User |';
-        return view('backend_master.users.users.view', $data, compact('users', ));
+        return view('backend_master.users.users.view', $data, compact('users',));
     }
     public function update_users(Request $request, $id)
     {
@@ -112,7 +116,7 @@ class UsersController extends Controller
 
 
     // this function active and inactive
-    public function disable($userId)
+    public function disable(Request $request, $userId)
     {
 
         $user = User::find($userId);

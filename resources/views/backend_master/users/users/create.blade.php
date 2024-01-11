@@ -11,16 +11,11 @@
         </nav>
     </div><!-- End Page Title -->
     <section class="section">
-
-
         <div class="row">
-
             <div class="col-lg-6">
-
                 <div class="card m-0 pt-3">
                     <div class="card-body">
-
-                        <form class="row g-3 needs-validation" method="post" action="{{ route('user.store') }}" novalidate>
+                        <form class="row g-3 needs-validation" action="{{url('/panel/dashboard/users/store') }}" method="post"  novalidate>
                             {{ csrf_field() }}
                             <div class="col-12">
                                 <label for="yourName" class="form-label">User Name <span
@@ -61,17 +56,33 @@
                                 <label for="validationCustom04" class="form-label">Role <span
                                         class="text-danger">*</span></label>
 
-                                <select class="form-select" name='user_type' value="{{ old('user_type') }}"
-                                    id="validationCustom04" value="{{ old('user_type') }}" required>
+                                <select class="form-select" name='role_name' value="{{ old('role_name') }}"
+                                    id="validationCustom04" value="{{ old('role_name') }}" required>
                                     <option selected="" disabled="" value="">Choose...</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('user_type'))
+                                @if ($errors->has('role_name'))
                                     <div class="text-danger text-left " style="font-size:14px">
-                                        {{ $errors->first('user_type') }}</div>
+                                        {{ $errors->first('role_name') }}</div>
+                                @endif
+                            </div>
+                            <div class="col-12">
+                                <label for="validationCustom04" class="form-label">Choose User_Type <span
+                                        class="text-danger">*</span></label>
+
+                                <select class="form-select" name='user_type' value="{{ old('user_type') }}"
+                                    id="validationCustom04" value="{{ old('role_name') }}" required>
+                                    <option selected="" disabled="" value="">Choose...</option>
+                                        <option value="0">admin</option>
+                                        <option value="1">normal user</option>
+                                </select>
+
+                                @if ($errors->has('role_name'))
+                                    <div class="text-danger text-left " style="font-size:14px">
+                                        {{ $errors->first('role_name') }}</div>
                                 @endif
                             </div>
                             <div class="modal-footer " style="border: 0px">
@@ -84,17 +95,16 @@
                                     <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-save "
                                             style="margin-right: 10px "></i>Save</button>
                                 </div>
-
                             </div>
-
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
     <script>
         $(document).ready(function() {
             $(document).on('click', '#btn_dalete ', function() {
@@ -121,34 +131,4 @@
             });
         });
     </script>
-
-    <style>
-        th {
-            font-size: 0.90rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        td {
-            font-size: 0.85rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        .form-label {
-            font-family: Krasar, sans-serif;
-            font-size: 16px;
-        }
-
-        .form-control {
-            padding: .575rem .75rem;
-            font-size: 0.85rem;
-
-        }
-
-        .form-select {
-
-            padding: .575rem 2.25rem 0.585rem .75rem;
-            font-size: 0.85rem;
-
-        }
-    </style>
 @endsection

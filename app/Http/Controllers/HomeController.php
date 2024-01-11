@@ -3,14 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courses;
+use App\Models\Posts;
+use App\Models\Promotionals;
+use App\Models\Videos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     //
-    public function home_master(Request $request)
-    {
-        $home_masters = Courses::where("Is_deleted" , 0)->get();
-        return view('home_master.home' , compact('home_masters'));
+    public function index(Request $request)
+    {/* increment */
+        Posts::query()->increment('views');
+        $getPosts = Posts::where("Is_deleted" , 0)->latest()->paginate(5); 
+ 
+        return view('home_master.index' , compact('getPosts'));
+       
     }
+
+
+    public function  Article($id)
+    {
+        $data['header_title'] = 'Article';
+        $article = Posts::findOrFail($id);
+        $article->incrementViewsCount();
+        return view('home_master.article', $data, ['article'=>$article] );
+    }
+    
+
+
+
 }
