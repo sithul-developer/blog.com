@@ -18,23 +18,27 @@
                 <nav class="pt-4 pb-2" style="display: flex">
                     {{--    @can('role-list') --}}
                     <a href=" {{ url('/panel/dashboard/promotional/create') }}">
-                        <button type="submit" class="btn  btn-outline-secondary      btn-md mb-2  "
-                            style="font-size: 15px;"><i class="bi bi-plus-circle me-2 "
-                                onclick="this.classList.toggle('button--loading')"></i> Add
+                        <button type="submit" class="btn  btn-outline-secondary btn-md mb-2  " style="font-size: 15px;"><i
+                                class="bi bi-plus-circle me-2 " onclick="this.classList.toggle('button--loading')"></i> Add
                             Promotional
                         </button></a>
                     {{--  @endcan --}}
-
-                    <form class="search-form d-flex align-items-center" method="POST" action="#"
-                        style="position: absolute; right: 28px;}">
+                    <form class="search-form d-flex align-items-center" action="{{ route('promotional.search') }}"
+                        method="POST" style="position: absolute; right: 28px;}">
+                        @csrf
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Searah everthing"
+                            <input type="text" class="form-control" name="search" placeholder="Searah everthing"
                                 aria-describedby="basic-addon2">
-                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i>
-                            </span>
+                            <button type="submit" class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i>
+                            </button>
                         </div>
+                        <button type="submit" class="input-group-text mx-3" id="basic-addon2"> <span><i
+                                    class="bi bi-arrow-clockwise"></i> </span></button>
                     </form>
                 </nav>
+                @php
+                    $i = 1;
+                @endphp
                 <div class="card-body" style="overflow-x:auto;">
                     <table class="table table-hover ">
                         <thead>
@@ -56,14 +60,19 @@
                                 <tbody>
                                     <tr>
                                         <td class="col" id="column">
-                                            {{ $promotional->id }}</td>
+                                            {{ $i++ }}</td>
                                         <td scope="row">
                                             <img src='{{ $promotional->getImage() }}'
                                                 style="width: 85px; height: 48px; border-radius: px; "
                                                 alt="{{ $promotional->image }}" />
                                         </td>
                                         <td class="col" id="column">
-                                            <p class="textSort"> {{ $promotional->title }}
+                                            <p class="textSort">
+                                                @if (empty($promotional->title))
+                                                    No data available
+                                                @else
+                                                    {{ $promotional->title }}
+                                                @endif
                                             </p>
                                         </td>
                                         <td class="col" id="column">
@@ -92,21 +101,19 @@
                                                     <p>3- Promotional </p>
                                                 @endif
                                             @endif
-
                                         </td>
-
                                         <td class="col" id="column">
 
-                                            <a href="{{ url('/panel/dashboard/courses/' . $promotional->id) }}">
+                                            <a href="{{ url('/panel/dashboard/promotional/' . $promotional->id) }}">
                                                 <button
                                                     class="badge  text-white btn btn-{{ $promotional->status ? 'danger' : 'primary' }}">{{ $promotional->status ? 'Inactive' : 'Active' }}
                                                 </button> </a>
                                         </td>
                                         <td class="col" id="column">
-                                            {{ $promotional->created_at->format('d/M/Y') }}
+                                            {{ $promotional->created_at->diffForHumans() }}
                                         </td>
                                         <td class="col" id="column">
-                                            {{ $promotional->updated_at->format('d/M/Y') }}
+                                            {{ $promotional->updated_at->diffForHumans() }}
                                         </td>
                                         <td class="col" style=" ">
                                             <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -148,41 +155,4 @@
             </div>
         </div>
     </section>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-   
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#btn_dalete ', function() {
-                var promo_id = $(this).val();
-                $('#deletetModal').modal('show')
-                $('#deleteid').val(promo_id);
-            });
-        });
-
-
-
-        /*  $(document).ready(function() {
-             $(document).on('click', '#btn_show ', function() {
-                 var users_id = $(this).val();
-                 $('#Show_Modal').modal('show')
-                 $('#update_id').val(users_id);
-             });
-         }); */
-
-
-        ///
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
 @endsection

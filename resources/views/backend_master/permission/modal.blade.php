@@ -1,5 +1,4 @@
 <!-- Start-Delete-Modal-->
-
 <div class="modal fade" id="deletetModal">
     <form action="{{ url('panel/dashboard/permission/delete') }} " method="POST">
         @csrf

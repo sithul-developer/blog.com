@@ -66,7 +66,6 @@ class RoleController extends Controller
         $rolePermissions = Permission::join('role_has_permissions', 'role_has_permissions.permission_id', 'permissions.id')
             ->where('role_has_permissions.role_id', $id)
             ->get();
-
         return view('roles.show', compact('role', 'rolePermissions'));
     }
 
@@ -74,14 +73,12 @@ class RoleController extends Controller
     public function edit($id)
     {
         $data['active_class'] = 'Role'; 
-
         $role = Role::find($id);
         $permissions = Permission::get();
         $rolePermissions = DB::table('role_has_permissions')
             ->where('role_has_permissions.role_id', $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-
         return view('backend_master.users.role.edit',$data, compact('role', 'permissions', 'rolePermissions'));
     }
 
@@ -98,10 +95,8 @@ class RoleController extends Controller
         $role->save();
 
         $role->syncPermissions($request->input('permission'));
-
         return redirect('/panel/dashboard/role')
             ->with('success', 'Role updated successfully.');
-        /*   dd($request->all()); */
     }
 
 
@@ -117,7 +112,6 @@ class RoleController extends Controller
       public function destroy($id)
     {
         Role::find($id)->delete();
-
         return redirect()->route('roles.index')
             ->with('success', 'Role deleted successfully');
     }

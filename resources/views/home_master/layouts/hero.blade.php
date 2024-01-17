@@ -5,20 +5,19 @@
     $getSlider = Promotionals::where('options', 0)
         ->where('status', 0)
         ->get();
-
-
-
 @endphp
-
 @foreach ($getSlider as $promotional)
-    {{-- <div class="row gy-4">
-    <img src='{{ $promotional->getImage() }}' style="width: 85px; height: 48px; border-radius: px; "
-        alt="" />
-</div> --}}
 
-
-    <section id="hero" style="background-image: url({{ $promotional->getImage() }});"
-        class="hero d-flex align-items-center">
+    <section id="hero" 
+        class="hero d-flex align-items-center" style=" width: 100%;
+        min-height: 50vh;
+        background-color: #007B5F;
+        background-image: url('{{$promotional->getImage()}}')
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        padding: 120px 0 60px 0;
+        color: rgba(255, 255, 255, 0.8);">
         
         <div class="container">
             <div class="row ">
@@ -32,7 +31,7 @@
                 </div>
 
                 <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-                    <img src="{{url('/assets_frontend/img/hero-img.svg')}}" class="img-fluid mb-3 mb-lg-0 " alt=" imge">
+                    <img src="{{url('/assets_frontend/img/hero-img.svg')}}" class="img-fluid mb-3 mb-lg-0 " alt=" imge" >
                 </div>
 
             </div>

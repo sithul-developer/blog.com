@@ -38,6 +38,9 @@
                                          <i class="bi bi-arrow-clockwise"></i> </button>
                                  </form> --}}
                              </div>
+                             @php
+                             $i=1;
+                         @endphp
 
                              <table class="table table-hover   striped">
                                  <thead>
@@ -55,7 +58,7 @@
                                  @foreach ($users as $user)
                                      <tbody>
                                          <tr>
-                                             <td class="col" id="column">{{ $user->id }}</td>
+                                             <td class="col" id="column">{{ $i++ }}</td>
                                              <td class="col" id="column">{{ $user->name }}</td>
                                              <td class="col" id="column">{{ $user->email }}</td>
                                              <td class="col" id="column">
@@ -79,17 +82,17 @@
                                                         </a>
                                                         <button type="submit" value="{{ $user->id }}" id="btnDelete"
                                                             class="btn btn-sm btn-outline-danger "
-                                                            style="border-radius: 5px ;margin: 0px 6px 0px 5px;" <a
+                                                            style="border-radius: 5px ;margin: 0px 6px 0px 5px;"> <a
                                                             href="" value="{{ $user->id }}"></a><i
                                                                 class="bi bi-trash"></i>
                                                         </button>
                                                         <a href="{{ url('/panel/dashboard/users/view/' . $user->id) }}"><i
-                                                                class="bi bi-eye    btn btn-sm btn-outline-success btn-outline-success"></i>
+                                                                class="bi bi-eye    btn btn-sm btn-outline-warning btn-outline-success"></i>
                                                         </a>
 
                                                     <a href="{{ url('panel/dashboard/user/' .$user->id) }}"
                                                         style="border-radius: 5px ;margin: 0px 6px 0px 5px;"
-                                                        class="btn btn-sm btn-outline-success btn-outline-{{ $user->status ? 'primary' : 'danger' }}">{{ $user->status ? 'Active' : ' Inactive' }}</a>
+                                                        class="btn btn-sm btn-outline-primary btn-outline-{{ $user->status ? 'primary' : 'danger' }}">{{ $user->status ? 'Active' : ' Inactive' }}</a>
                                                 </div>
                                             </td>
                                          </tr>
@@ -97,24 +100,13 @@
                                  @endforeach
                              </table>
                              @include('backend_master.users.users.modal')
+                             <div class="pagination">
+                                {{ $users->links('pagination::bootstrap-5') }}
+                            </div>
                          </div>
                      </div>
                  </div>
              </div>
          </section>
-
-         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-         <script>
-             $(document).ready(function() {
-                 $(document).on('click', '#btnDelete ', function() {
-                     var role = $(this).val();
-                     $('#deletetModal').modal('show')
-                     $('#deleteid').val(role);
-                 });
-             });
-
-           
-         </script>
-     
      </section>
  @endsection

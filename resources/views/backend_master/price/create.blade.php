@@ -11,8 +11,6 @@
         </nav>
     </div> <!-- End Page Title -->
     <section class="section">
-
-
         <div class="row">
             <div class="col-lg-7">
                 <div class="card m-0 pt-3">
@@ -63,8 +61,8 @@
                             <div class="col-12 mt-3">
                                 <label for="NameCategory" class="form-label">Orders<span
                                         class="text-danger ">*</span></label>
-                                <select class="form-select" aria-label="Default select example" id="order"
-                                    name="order" required>
+                                <select class="form-select" aria-label="Default select example" id="order_price"
+                                    name="order_price" required>
                                     <option selected="" disabled="" value=""><span style="font-size:14px">Selete
                                             Order</p>
                                     </option>
@@ -75,9 +73,9 @@
                                     <option value="4">5</option>
                                     <option value="5">6</option>
                                 </select>
-                                @if ($errors->has('order'))
+                                @if ($errors->has('order_price'))
                                     <div class="text-danger text-left " style="font-size:12px">
-                                        {{ $errors->first('order') }}
+                                        {{ $errors->first('order_price') }}
                                     </div>
                                 @endif
                             </div>
@@ -124,12 +122,11 @@
                 </div>
             </div>
     </section>
-  
-    <script>
+
+ {{--    <script>
         function UsCurrency(input) {
             // Get the input value and remove any non-numeric characters
             let inputValue = input.value.replace(/[^0-9.]/g, '');
-
             // Format the number as currency using toLocaleString()
             let formattedValue = parseFloat(inputValue).toLocaleString('en-US', {
                 style: 'currency',
@@ -137,7 +134,6 @@
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             });
-
             // Update the input value with the formatted currency
             input.value = formattedValue;
         }
@@ -152,35 +148,8 @@
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             });
-
             // Update the input value with the formatted currency
             input.value = formattedValue;
         }
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_dalete ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#deletetModal').modal('show')
-                $('#delete_id').val(users_id);
-            });
-        });
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_store ', function() {
-                $('#store_Modal').modal('show')
-            });
-        });
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_show ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#Show_Modal').modal('show')
-                $('#update_id').val(users_id);
-            });
-        });
-    </script>
-
-   
+    </script> --}}
 @endsection

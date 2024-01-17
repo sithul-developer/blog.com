@@ -8,8 +8,9 @@
                         class="bi bi-plus-circle me-2 " onclick="this.classList.toggle('button--loading')"></i> Add Content</button></a>
             {{-- @endcan --}}
 
-            <form class="search-form d-flex align-items-center" action="{{-- {{ route('course.search') }} --}}" method="get"
+            <form class="search-form d-flex align-items-center" action="{{ route('posts.search') }}" method="GET"
                 style="position: absolute; right: 28px;">
+
                 <div class="input-group">
                     <input type="text" class="form-control" name="search" placeholder="Searah everthing"
                         aria-describedby="basic-addon2">
@@ -24,8 +25,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <h5 class="card-title" style="margin-left:20px"> <span>All of Courses </span></h5>
+                        <h5 class="card-title" style="margin-left:20px"> <span></span></h5>
                         <div class="card-body" style="overflow-x:auto;">
+                            @php
+                                $i=1;
+                            @endphp
                             <table class="table  table-hover   striped ">
                                 <thead>
                                     <tr>
@@ -36,7 +40,7 @@
                                         <th scope="col" id="col">Sub_Title</th>
                                         <th scope="col" id="col">Catgory</th>
                                         <th scope="col" id="col">Description </th>
-                                        <th scope="col" id="col">Status</th>
+                                     {{--    <th scope="col" id="col">Status</th> --}}
                                         <th scope="col" id="col">viwes</th>
                                         <th scope="col" id="col" >Update_at</th>
                                         <th scope="col" id="col">Create_at</th>
@@ -47,16 +51,22 @@
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
                                         <th colspan="6" id="col"
-                                            style="position: absolute; width: 150px; right: 0px;">
+                                            style="position: absolute; width: 120px; right: 0px;">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 @if ($posts->count() > 0)
+
                                     @foreach ($posts as $post)
                                         <tbody>
                                             <tr>
-                                                <td class="col" id="column">{{ $post->id }}</td>
+                                                <td class="col" id="column">{{ $i++ }}</td>
                                                 <td scope="row">
                                                     <img src='{{ $post->getImage() }}'
                                                         style="width: 85px; height: 48px; border-radius: px; "
@@ -79,25 +89,21 @@
                                                     </p>
                                                 </td>
                                          
-                                                <td class="col" id="column">
-
-                                                    <a href="{{ url('/panel/dashboard/courses/' . $post->id) }}" <button
-                                                        class="badge  text-white  btn btn-{{ $post->status ? 'danger' : 'primary' }}">{{ $post->status ? 'Inactive' : 'Active' }}
-                                                        </button> </a>
-                                                </td>
+                                             {{--    <td class="col" id="column">
+                                                </td> --}}
                                                 <td class="col" id="column">
                                                     <p class="textSort">
                                                         {{ $post->views }}
                                                     </p>
                                                 </td>
                                                 <td class="col" id="column">
-                                                    {{ $post->created_at->format('d/M/Y') }}
+                                                    {{ $post->created_at->diffForHumans() }}
                                                 </td>
                                                 <td class="col" id="column">
-                                                    {{ $post->updated_at->format('d/M/Y') }}
+                                                    {{ $post->updated_at->diffForHumans()}}
                                                 </td>
                                                 <td class="col"
-                                                    style=" position: absolute; width: 150px; right: 0px; padding: 18px;">
+                                                    style=" position: absolute; width: 230px; right: 0px; padding: 18px;">
                                                     <div class="btn-group" role="group"
                                                         aria-label="Basic outlined example">
                                                         <a href="{{ url('/panel/dashboard/posts/edit/' . $post->id) }}"><i
@@ -105,14 +111,17 @@
                                                         </a>
                                                         <button type="submit" value="{{ $post->id }}" id="btnDelete"
                                                             class="btn btn-sm btn-outline-danger "
-                                                            style="border-radius: 5px ;margin: 0px 6px 0px 5px;" <a
+                                                            style="border-radius: 5px ;margin: 0px 6px 0px 5px;"> <a
                                                             href="" value="{{ $post->id }}"></a><i
                                                                 class="bi bi-trash"></i>
                                                         </button>
-                                                        <a
+                                                       {{--  <a
                                                             href="{{ url('/panel/dashboard/category/view/' . $post->id) }}"><i
                                                                 class="bi bi-eye    btn btn-sm btn-outline-success btn btn-outline-warning"></i>
-                                                        </a>
+                                                        </a> --}}
+                                                        <a href="{{ url('/panel/dashboard/posts/' . $post->id) }}"><button style="border-radius: 5px ;margin: 0px 6px 0px 5px;"
+                                                            class="btn btn-sm   btn btn-outline-{{ $post->status ? 'danger' : 'success' }}">{{ $post->status ? 'Inactive' : 'Active' }}
+                                                            </button> </a>
                                                     </div>
                                                 </td>
                                             </tr>

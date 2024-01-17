@@ -9,10 +9,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $table = 'category';
-    public function courses ()
-    {
-        return $this->belongsTo(Courses::class , );
-    }
+    
     public function posts ()
     {
         return $this->belongsTo(Posts::class , );

@@ -87,31 +87,16 @@
                                                 <div class="card-body">
 
                                                     <div class="d-grid gap-2 mt-4">
-                                                        {{--   <input type="file" value="{{ old('image') }}"
-                                                            name="image" id="image" placeholder="Course Category"
-                                                            class="form-control @error('image') is-invalid @enderror has-validation "
-                                                            onchange="readURL(this);" required> --}}
+                                                        <input type = "file" class = "visually-hidden" name="image"
+                                                        id = "upload-input">
                                                         <button class=" upload-btn mb-3 btn btn-primary" type="button"
                                                             style="display: flex;
                                                         justify-content: center;
                                                         align-items: center;">
                                                             <i class="bx bxs-cloud-download " style="font-size:25px"></i>
                                                             <span style="font-size: 15px">Choose File</span></button>
-                                                        {{--     <button class=" upload-btn mb-3 btn btn-primary" type="button"
-                                                            style="display: flex;
-                                                        justify-content: center;
-                                                        align-items: center;">
-                                                            <i class="bx bxs-cloud-download " style="font-size:25px"></i> <span
-                                                                style="font-size: 15px">Choose File</span></button> --}}
+                                                   
                                                     </div>
-
-
-                                                    <input type = "file" class = "visually-hidden" name="image"
-                                                        id = "upload-input">
-                                                    {{--  @if (!empty($posts->getImage()))
-                                                        <img id="blah" src="{{ $posts->getImage() }}" alt="your image"
-                                                            class="pt-1" />
-                                                    @endif --}}
                                                     <div class ="upload-wrapper pt-2">
                                                         <div class = "upload-container">
                                                             <div class = "upload-img">
@@ -119,6 +104,10 @@
                                                                     <img id="blah" class="w-100"
                                                                         src="{{ $posts->getImage() }}" alt="your image"
                                                                         class="pt-1" />
+                                                                @else
+                                                                <img id="blah" class="text-sm"
+                                                                src="{{ asset('./media/image slider.png') }}"
+                                                                alt="image" style="font-size:14px  " />
                                                                 @endif
                                                                 <i class=" " style="font-size:25px"></i>
                                                             </div>
@@ -132,11 +121,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-
-                                            {{--  <div class="img_slider">
-                                                <img id="blah" class="text-sm" src="{{ asset('./media/image slider.png') }}"
-                                                    alt="image" style="width: 150p; height: 150px;font-size:14px  " />
-                                            </div> --}}
 
                                         </div>
                                     </div>
@@ -342,7 +326,7 @@
             ]
         });
 
-        /////
+       /*  /////
 
         $(document).ready(function() {
             $(document).on('click', '#btn_dalete ', function() {
@@ -371,7 +355,7 @@
             })
 
         });
-
+ */
 
         /*   $(document).ready(function() {
               $(document).on('click', '#btn_store ', function() {

@@ -69,7 +69,7 @@
                                         {{ $errors->first('role_name') }}</div>
                                 @endif
                             </div>
-                            <div class="col-12">
+                           {{--  <div class="col-12">
                                 <label for="validationCustom04" class="form-label">Choose User_Type <span
                                         class="text-danger">*</span></label>
 
@@ -84,7 +84,7 @@
                                     <div class="text-danger text-left " style="font-size:14px">
                                         {{ $errors->first('role_name') }}</div>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="modal-footer " style="border: 0px">
                                 <div class="text-left">
 
@@ -103,7 +103,7 @@
         </div>
     </section>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+   {{--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     
     <script>
         $(document).ready(function() {
@@ -130,5 +130,5 @@
                 $('#update_id').val(users_id);
             });
         });
-    </script>
+    </script> --}}
 @endsection

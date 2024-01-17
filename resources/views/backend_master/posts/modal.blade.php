@@ -1,6 +1,6 @@
 <!-- Start-Delete-Modal-->
 <div class="modal fade" id="deletetModal">
-    <form action="{{ route('prices.delete') }} " method="POST">
+    <form action="{{ route('posts.delete') }} " method="POST">
         @csrf
         @method('DELETE')
         <div class="modal-dialog modal-dialog-centered">

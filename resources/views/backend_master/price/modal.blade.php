@@ -16,7 +16,7 @@
             align-items: center;">
                         <i class="bi bi-exclamation-octagon text-xl text-danger"
                             style="font-size: 2rem;  margin-right: 1rem"> </i>Are you sure you want to go?
-                        <input type='hidden' name='price' id='deleteid' />
+                        <input type='text' name='price' id='deleteid' />
 
                     </div>
                 </div>

@@ -27,7 +27,7 @@ class StorePriceRequest  extends FormRequest
             //
             'product_name' => 'required|string|max:191',
             'compay_name' => 'required|string|max:191',
-            'order' => 'required',
+            'order_price' => 'required',
             'time_effect' => 'required|string|max:255',
             'price_usd' => 'required|string|max:10',
             'price_khr' => 'required|string|max:10',

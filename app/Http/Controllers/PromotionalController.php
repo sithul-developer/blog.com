@@ -14,25 +14,22 @@ class PromotionalController extends Controller
 {
     //
     //
-    public function CurseSearch(Request $request)
+    public function SearchPromo(Request $request)
     {
         $search = $request->input('search');
-        // Perform a search using Eloquent
-        $courses = Promotionals::where('name', 'like', "%$search%")
-            /* ->orWhere('content', 'like', "%$search%") */
-            ->orWhereHas('category', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            })
-            ->get();
-
+        $promotionals = Promotionals::where('order', 'like', "%$search%")
+            ->orWhere('options', 'like', "%$search%")
+          ->latest()->paginate(10);
+            $data['active_class'] = 'Promotional';
         // Pass the results to a view
-        return view('backend_master.courses.index', ['courses' => $courses]);
+        return view('backend_master.promotional.index',$data, ['promotionals' => $promotionals]);
     }
     public function index_promotional()
     {
             /* $courses = Promotional::where('Is_deleted', 0)->get() */;
         $categories = Category::where('Is_deleted', 0)->get();
-        $promotionals = Promotionals::where('Is_deleted', 0)->latest()->paginate(5); /* ::where('Is_deleted', 0)->get() */;
+        $promotionals = Promotionals::where('Is_deleted', 0)
+        ->orderBy('id', 'ASC')->latest()->paginate(7);
         $data['active_class'] = 'Promotional';
         return view('backend_master.promotional.index', $data, ['promotionals' => $promotionals, 'categories' => $categories]);
     }
@@ -54,25 +51,25 @@ class PromotionalController extends Controller
             $promotional->order = $request->input('order');
             $promotional->options = $request->input('options');
 
-            if (!empty($request->file('image'))) {
-                $image  = $request->file('image');
-                $filename = $image->getClientOriginalName();
-                $image->storeAs('/public/media/', $filename);
-                $promotional->image = $request->file('image')->getClientOriginalName();
+            if ($request->hasFile('image')) {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                ]);
+                $originalImagePath = $promotional->image;
+                $image = $request->file('image');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage//media/'), $filename);
+                $promotional->image = $filename;
             }
-            /*      dd($request->all()); */
-            /*  return redirect()->back()->withSuccess('You have successfully upload image.')->with('image',$imageNams); */
-
-
-
+              
             $promotional->save();
             DB::commit();
             return redirect('/panel/dashboard/promotional')->with('success', "User added successfully!");
         } catch (\Exception $e) {
-            /*    DB::rollback();
-             return redirect()->back()->with('error', "User added successfully!"); */
+               DB::rollback();
+             return redirect()->back()->with('error', "User added successfully!");
 
-            dd($e->getMessage());
+           /*  dd($e->getMessage()); */
         }
     }
 
@@ -92,20 +89,21 @@ class PromotionalController extends Controller
             $promotional->order = $request->input('order');
             $promotional->options = $request->input('options');
 
-            if ($request->has('image')) {
+            if ($request->hasFile('image')) {
                 $request->validate([
-                    'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048'
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ]);
-                if ($promotional->image) {
-                    Storage::delete('/public/media/' . $promotional->image);
-                }
+                $originalImagePath = $promotional->image;
                 $image = $request->file('image');
-                $filename = $image->getClientOriginalName();
-                $image->storeAs('/public/media/', $filename);
-                $promotional->image = $request->file('image')->getClientOriginalName();
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage//media/'), $filename);
+                $promotional->image = $filename;
+
+                if ($originalImagePath && file_exists(public_path('storage//media/' . $originalImagePath))) {
+                    unlink(public_path('storage//media/' . $originalImagePath));
+                }
             }
             $promotional->save();
-            /*     dd($request->all()); */
             DB::commit();
             return redirect('/panel/dashboard/promotional')->with('success', "User added successfully!");
         } catch (\Exception $e) {
@@ -124,18 +122,18 @@ class PromotionalController extends Controller
         return redirect()->back()->with('success', ' Category is delete successfully!');
     }
 
-    public function disable($courseId)
+    public function disable($promoId)
     {
 
-        $Courses = Promotionals::find($courseId);
-        if ($Courses) {
-            if ($Courses->status) {
-                $Courses->status = 0;
+        $promo = Promotionals::find($promoId);
+        if ($promo) {
+            if ($promo->status) {
+                $promo->status = 0;
             } else {
-                $Courses->status = 1;
+                $promo->status = 1;
             }
         }
-        $Courses->save();
+        $promo->save();
         return back();
     }
 }

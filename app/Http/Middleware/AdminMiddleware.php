@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Posts;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,17 @@ class AdminMiddleware
             // For example, you can redirect or perform additional checks
             // Here, we'll just return a response for demonstration
             return redirect('/login')->withErrors('Your Account Disabled !');
+        }
+
+        $visitor = Posts::whereDate('created_at', today())
+            ->where('ip_address', $request->ip())
+            ->first();
+
+        if (!$visitor) {
+            Posts::create([
+                'ip_address' => $request->ip(),
+                'created_at' => now(),
+            ]);
         }
 
         return $next($request);

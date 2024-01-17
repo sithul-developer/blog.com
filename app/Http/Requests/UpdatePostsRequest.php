@@ -30,6 +30,7 @@ class UpdatePostsRequest  extends FormRequest
             'content' => 'required',
             'description' => 'required|string|max:255',
             'category_id' => 'required',
+        /*     'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048' */
           /*  */
         ];
     }

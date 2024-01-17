@@ -21,7 +21,7 @@ class UsersController extends Controller
     {
 
         $roles = Role::all();
-        $users =   User::where('Is_deleted', 0)->latest()->paginate(5);
+        $users =   User::where('Is_deleted', 0)->latest()->paginate(10);
         $data['active_class'] = 'User';
         return view('backend_master.users.users.index', $data, compact('users', 'roles'));
     }

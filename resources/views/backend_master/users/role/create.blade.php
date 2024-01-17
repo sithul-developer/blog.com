@@ -63,33 +63,4 @@
                 </div>
             </div>
     </section>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#btn_dalete ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#deletetModal').modal('show')
-                $('#delete_id').val(users_id);
-            });
-        });
-
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_store ', function() {
-                $('#store_Modal').modal('show')
-            });
-        });
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_show ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#Show_Modal').modal('show')
-                $('#update_id').val(users_id);
-            });
-        });
-    </script>
-
-   
 @endsection

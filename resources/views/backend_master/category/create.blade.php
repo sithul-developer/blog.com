@@ -11,8 +11,6 @@
         </nav>
     </div> <!-- End Page Title -->
     <section class="section">
-
-
         <div class="row">
             <div class="col-lg-7">
                 <div class="card m-0 pt-3">
@@ -33,7 +31,6 @@
                                     </div>
                                 @endif
                             </div>
-
                             <div class="col-12 pt-1">
                                 <label for="validationCustom04" class="form-label">Description <span
                                         class="text-danger">*</span></label>
@@ -45,80 +42,19 @@
                                     {{ $errors->first('description') }}
                                 </div>
                             @endif
-
                             <div class="modal-footer">
                                 <div class="text-left d-flex pt-3">
                                     <button type="submit" class="btn btn-secondary  btn-sm mx-4"><a
-                                            href="{{ url('panel/dashboard/course_category') }}" style="color:whitesmoke "><i
+                                            href="{{ url('panel/dashboard/category') }}" style="color:whitesmoke "><i
                                                 class="bi bi-arrow-clockwise" class="spinner-border"></i>Back To Lists
                                         </a></button>
-
                                     <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-save "
                                             style="margin-right: 10px "></i>Save</button>
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
     </section>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#btn_dalete ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#deletetModal').modal('show')
-                $('#delete_id').val(users_id);
-            });
-        });
-
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_store ', function() {
-                $('#store_Modal').modal('show')
-            });
-        });
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_show ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#Show_Modal').modal('show')
-                $('#update_id').val(users_id);
-            });
-        });
-    </script>
-
-    <style>
-        th {
-            font-size: 0.90rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        td {
-            font-size: 0.85rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        .form-label {
-            font-family: Krasar, sans-serif;
-            font-size: 15px;
-            margin-bottom: 2px;
-        }
-
-        .form-control {
-            padding: .575rem .75rem;
-            font-size: 0.85rem;
-
-        }
-
-        .form-select {
-
-            padding: .575rem 2.25rem 0.585rem .75rem;
-            font-size: 0.85rem;
-
-        }
-    </style>
 @endsection

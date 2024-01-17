@@ -37,6 +37,9 @@
                                         <i class="bi bi-arrow-clockwise"></i> </button>
                                 </form> --}}
                             </div>
+                            @php
+                                $i=1;
+                            @endphp
 
                             <table class="table table-hover   striped">
                                 <thead>
@@ -54,7 +57,7 @@
                                 @foreach ($roles as $role)
                                     <tbody>
                                         <tr>
-                                            <td class="col" id="column">{{ $role->id }}</td>
+                                            <td class="col" id="column">{{ $i++ }}</td>
                                             <td class="col" id="column">{{ $role->name }}</td>
                                             <td class="col" id="column">
                                                 @foreach ($role->permissions as $permission)
@@ -83,7 +86,7 @@
                                                     </button>
                                                     <a
                                                         href="{{ url('/panel/dashboard/course_category/view/' . $role->id) }}"><i
-                                                            class="bi bi-eye    btn btn-sm btn-outline-success btn-outline-success"></i>
+                                                            class="bi bi-eye    btn btn-sm btn-outline-warning btn-outline-success"></i>
                                                     </a>
                                                 </div>
 
@@ -98,17 +101,5 @@
                 </div>
             </div>
         </section>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $(document).on('click', '#btnDelete ', function() {
-                    var role = $(this).val();
-                    $('#deletetModal').modal('show')
-                    $('#deleteid').val(role);
-                });
-            });
-        </script>
     </section>
 @endsection

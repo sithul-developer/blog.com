@@ -20,7 +20,7 @@
                         <form  method="POST" action="{{ url('/panel/dashboard/category/update/'.$category->id) }}"  class="row g-3 needs-validation" novalidate>
                             {{ csrf_field() }}
                             <div class="col-12">
-                                <label for="NameCategory" class="form-label">Course Category<span
+                                <label for="NameCategory" class="form-label">Category<span
                                         class="text-danger ">*</span></label>
                                 <input type="text" value="{{ $category->name}}" name="name" id="name"
                                     placeholder="Course Category"
@@ -55,61 +55,4 @@
                 </div>
             </div>
     </section>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#btn_dalete ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#deletetModal').modal('show')
-                $('#delete_id').val(users_id);
-            });
-        });
-
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_store ', function() {
-                $('#store_Modal').modal('show')
-            });
-        });
-
-        $(document).ready(function() {
-            $(document).on('click', '#btn_show ', function() {
-                var users_id = $(this).val();
-                /*   alert(category_id) */
-                $('#Show_Modal').modal('show')
-                $('#update_id').val(users_id);
-            });
-        });
-    </script>
-
-    <style>
-        th {
-            font-size: 0.90rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        td {
-            font-size: 0.85rem;
-            font-family: Krasar, sans-serif;
-        }
-
-        .form-label {
-            font-family: Krasar, sans-serif;
-            font-size: 16px;
-        }
-
-        .form-control {
-            padding: .575rem .75rem;
-            font-size: 0.85rem;
-
-        }
-
-        .form-select {
-
-            padding: .575rem 2.25rem 0.585rem .75rem;
-            font-size: 0.85rem;
-
-        }
-    </style>
 @endsection

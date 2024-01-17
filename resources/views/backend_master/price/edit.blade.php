@@ -11,8 +11,6 @@
         </nav>
     </div> <!-- End Page Title -->
     <section class="section">
-
-
         <div class="row">
             <div class="col-lg-7">
                 <div class="card m-0 pt-3">
@@ -24,7 +22,7 @@
                             <div class="col-12">
                                 <label for="NameCategory" class="form-label">Effect Date Time *<span
                                         class="text-danger ">*</span></label>
-                                <input type="datetime-local" value="{{ $price->time_effect }}" class="form-control" id="time_effect" name="time_effect"
+                                <input type="text" value="{{ $price->time_effect }}" class="form-control" id="time_effect" name="time_effect"
                                     required>
                                 @if ($errors->has('time_effect'))
                                     <div class="text-danger text-left " style="font-size:12px">
@@ -61,17 +59,17 @@
                             <div class="col-12 mt-3">
                                 <label for="NameCategory" class="form-label">Orders<span
                                         class="text-danger ">*</span></label>
-                                <select class="form-select" aria-label="Default select example" id="order"
-                                    name="order" required>
+                                <select class="form-select" aria-label="Default select example" id="order_price"
+                                    name="order_price" required>
                                     <option selected="" disabled="" value=""><span style="font-size:14px">Selete
                                             Order</p>
                                     </option>
-                                    <option  {{ $price->order == '0' ? 'selected' : '' }} value="0">1-BVM</option>
-                                    <option  {{ $price->order == '1' ? 'selected' : '' }} value="1">2-TELA </option>
-                                    <option  {{ $price->order == '2' ? 'selected' : '' }} value="2">3-CALTEX</option>
-                                    <option  {{ $price->order == '3' ? 'selected' : '' }} value="3">4-TOTAL</option>
-                                    <option  {{ $price->order == '4' ? 'selected' : '' }} value="4">5-PTT</option>
-                                    <option  {{ $price->order == '5' ? 'selected' : '' }} value="5">6-SOKIMEX</option>
+                                    <option  {{ $price->order_price == '0' ? 'selected' : '' }} value="0">1-BVM</option>
+                                    <option  {{ $price->order_price == '1' ? 'selected' : '' }} value="1">2-TELA </option>
+                                    <option  {{ $price->order_price == '2' ? 'selected' : '' }} value="2">3-CALTEX</option>
+                                    <option  {{ $price->order_price == '3' ? 'selected' : '' }} value="3">4-TOTAL</option>
+                                    <option  {{ $price->order_price == '4' ? 'selected' : '' }} value="4">5-PTT</option>
+                                    <option  {{ $price->order_price == '5' ? 'selected' : '' }} value="5">6-SOKIMEX</option>
                                 </select>
                                 @if ($errors->has('order'))
                                     <div class="text-danger text-left " style="font-size:12px">
@@ -155,7 +153,6 @@
             // Update the input value with the formatted currency
             input.value = formattedValue;
         }
-
         $(document).ready(function() {
             $(document).on('click', '#btn_dalete ', function() {
                 var users_id = $(this).val();
@@ -164,8 +161,6 @@
                 $('#delete_id').val(users_id);
             });
         });
-
-
         $(document).ready(function() {
             $(document).on('click', '#btn_store ', function() {
                 $('#store_Modal').modal('show')

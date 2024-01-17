@@ -25,6 +25,9 @@
                             <div class="card-boxd ">
                                 <h5 class="card-title"> <span>All of Permision</span></h5>
                             </div>
+                            @php
+                                $i=1;
+                            @endphp
                             <table class="table table-hover striped">
                                 <thead>
                                     <tr>
@@ -39,7 +42,7 @@
                                 @foreach ($permissions as $permision)
                                     <tbody>
                                         <tr>
-                                            <td class="col" id="column">{{ $permision->id }}</td>
+                                            <td class="col" id="column">{{$i++ }}</td>
                                             <td class="col" id="column">{{ $permision->name }}</td>
                                             <td class="col" id="column">{{ $permision->guard_name }}</td>
                                             <td class="col" id="column">
@@ -62,7 +65,7 @@
                                                     </button>
                                                     <a
                                                         href="{{ url('/panel/dashboard/course_category/view/' . $permision->id) }}"><i
-                                                            class="bi bi-eye    btn btn-sm btn-outline-success btn-outline-success"></i>
+                                                            class="bi bi-eye    btn btn-sm btn-outline-warning btn-outline-success"></i>
                                                     </a>
                                                 </div>
                                             </td>
@@ -79,15 +82,5 @@
                 </div>
             </div>
         </section>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $(document).on('click', '#btnDelete ', function() {
-                    var permission = $(this).val();
-                    $('#deletetModal').modal('show')
-                    $('#deleteid').val(permission);
-                });
-            });
-        </script>
     </section>
 @endsection

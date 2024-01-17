@@ -14,7 +14,6 @@ class PostsController extends Controller
 {
     public function upload(Request $request)
     {
-
         if ($request->hasFile('upload')) {
             $originName = optional($request->file('upload'))->getClientOriginalName();
             // $originName =  $request->file('upload'->getClientOriginalName());
@@ -28,35 +27,33 @@ class PostsController extends Controller
         /* =================End_function_upload_photo_for_CkEdit5=============t*/
     }
     //
-    /*  public function CurseSearch(Request $request)
+    public function SearchPost(Request $request)
     {
         $search = $request->input('search');
-        // Perform a search using Eloquent
-        $courses = Posts::where('name', 'like', "%$search%")
+        $posts = Posts::where('sub_title', 'like', "%$search%")
             ->orWhere('content', 'like', "%$search%")
+            ->orWhere('description', 'like', "%$search%")
             ->orWhereHas('category', function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
-            })
-            ->get();
-
-        // Pass the results to a view
-        return view('backend_master.courses.index', ['courses' => $courses]);
-    } */
+            })->latest()->paginate(10);
+        $data['active_class'] = 'Post';
+        return view('backend_master.posts.index', $data, ['posts' => $posts]);
+    }
     public function index_posts()
     {
             //
             /* $courses = Posts::where('Is_deleted', 0)->get() */;
-     /*    $data['active_class'] = 'post'; */
+        /*    $data['active_class'] = 'post'; */
         $categories = Category::where('Is_deleted', 0)->get();
-        $posts = Posts::where('Is_deleted', 0)->latest()->paginate(6);;
-        $data['active_class'] = 'Post' ;
+        $posts = Posts::where('Is_deleted', 0)->latest()->paginate();
+        $data['active_class'] = 'Post';
         return view('backend_master.posts.index', $data, ['posts' => $posts, 'categories' => $categories]);
     }
     public function create_posts()
     {
         $categories = Category::where('Is_deleted', 0)->get();
 
-        $data['active_class'] = 'Post' ;
+        $data['active_class'] = 'Post';
         return view('backend_master.posts.create',  $data, ['categories' => $categories]);
     }
 
@@ -66,8 +63,6 @@ class PostsController extends Controller
 
         DB::beginTransaction();
         try {
-
-
             $posts = new Posts();
             $posts->title = $request->input('title');
             $posts->sub_title = $request->input('sub_title');
@@ -75,27 +70,28 @@ class PostsController extends Controller
             $posts->description = $request->input('description');
             $posts->category_id = $request->input('category_id');
 
-            if (!empty($request->file('image'))) {
+           
+            if ($request->hasFile('image')) {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                ]);
+                $originalImagePath = $posts->image;
                 $image = $request->file('image');
-                $filename = $image->getClientOriginalName();
-                $image->storeAs('/public/media/', $filename);
-                $posts->image = $request->file('image')->getClientOriginalName();
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage//media/'), $filename);
+                $posts->image = $filename;
             }
-            /*   dd($request->all()); */
             $posts->save();
             DB::commit();
             return redirect('/panel/dashboard/posts')->with('success', "User added successfully!");
         } catch (\Exception $e) {
             DB::rollback();
-            if (empty($request->file('image'))) {
+              if (empty($request->file('image'))) {
                 return redirect()->back()->with('error', "Invalid image format. Please upload a JPEG, PNG, or GIF file.");
             }
             return redirect()->back()->with('error', "oops something went worng.please try again later!");
         }
-        /*   $product = new Posts($request->all());
-        dd($product); // Inspect the created product object
-        return  view('backend_master.posts.index');
-        */
+       
     }
 
 
@@ -103,7 +99,7 @@ class PostsController extends Controller
     {
         $categories = Category::all();
         $posts = Posts::find($id);
-        $data['active_class'] = 'Post' ;
+        $data['active_class'] = 'Post';
 
         return view('backend_master.posts.edit', $data, ['posts' => $posts, 'categories' => $categories]);
     }
@@ -112,14 +108,6 @@ class PostsController extends Controller
         //update
         DB::beginTransaction();
         try {
-            /*   $request->validate([
-                'title' => 'required|max:191',
-                'description' => 'required|max:191',
-                'prices' => 'required|nullable|numeric',
-                'name' => 'required|nullable|string',
-
-            ]); */
-
             $posts = Posts::findOrFail($id);
             $posts->title = $request->input('title');
             $posts->sub_title = $request->input('sub_title');
@@ -127,21 +115,23 @@ class PostsController extends Controller
             $posts->description = $request->input('description');
             $posts->category_id = $request->input('category_id');
 
-            if ($request->has('image')) {
+
+            if ($request->hasFile('image')) {
                 $request->validate([
-                    'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048'
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ]);
-                if ($posts->image) {
-                    Storage::delete('media/' . $posts->image);
-                } else {
-                    $image = $request->file('image');
-                    $filename = $image->getClientOriginalName();
-                    $image->storeAs('/public/media/', $filename);
-                    $posts->image = $request->file('image')->getClientOriginalName();
+                $originalImagePath = $posts->image;
+                $image = $request->file('image');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage//media/'), $filename);
+                $posts->image = $filename;
+
+                if ($originalImagePath && file_exists(public_path('storage//media/' . $originalImagePath))) {
+                    unlink(public_path('storage//media/' . $originalImagePath));
                 }
             }
             $posts->save();
-            /*    dd($request->all()); */
+            /*     dd($request->all()); */
             DB::commit();
             return redirect('/panel/dashboard/posts')->with('success', "User added successfully!");
         } catch (\Exception $e) {
@@ -157,21 +147,21 @@ class PostsController extends Controller
         $post_id = Posts::findOrFail($post_id);
         $post_id->Is_deleted = 1;
         $post_id->save();
-        return redirect()->back()->with('success', ' Category is delete successfully!');
+        return redirect()->back()->with('success', ' Post is delete successfully!');
     }
 
-    public function disable($courseId)
+    public function disable($postId)
     {
 
-        $Courses = Posts::find($courseId);
-        if ($Courses) {
-            if ($Courses->status) {
-                $Courses->status = 0;
+        $post = Posts::find($postId);
+        if ($post) {
+            if ($post->status) {
+                $post->status = 0;
             } else {
-                $Courses->status = 1;
+                $post->status = 1;
             }
         }
-        $Courses->save();
+        $post->save();
         return back();
     }
 }

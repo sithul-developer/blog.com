@@ -2,12 +2,15 @@
     use App\Models\Promotionals;
     use App\Models\Price;
 
-    $getPrice = Price::where('order', 0)->get();
-    $getPriceOrdre1 = Price::where('order', 1)->get();
-    $getPriceOrdre2 = Price::where('order', 2)->get();
-    $getPriceOrdre3 = Price::where('order', 3)->get();
-    $getPriceOrdre4 = Price::where('order', 3)->get();
-    $getPriceOrdre5 = Price::where('order', 5)->get();
+    $getPriceOrdre0 = Price::where('order_price', 0)->get();
+    $getPriceOrdre1 = Price::where('order_price', 1)->get();
+    $getPriceOrdre2 = Price::where('order_price', 2)->get();
+    $getPriceOrdre3 = Price::where('order_price', 3)->get();
+    $getPriceOrdre4 = Price::where('order_price', 3)->get();
+    $getPriceOrdre5 = Price::where('order_price', 5)->get();
+    
+    $getTime = DB::table('Prices')->where('order_price', 0)->take(1)->get();
+
 
 @endphp
 
@@ -18,7 +21,7 @@
     overflow: hidden;
     ;border:#f1be48;
 ">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row ">
             <div class="col-lg-12 order-2 order-lg-1 d-flex flex-column justify-content-center ">
                 <div class="row " data-aos="fade-up" data-aos-delay="400">
@@ -30,7 +33,7 @@
                     background: #f1be48;">
                         {{--     <span>Our Services</span> --}}
                         <h3 style="color: #007B5F; font-size: 20px;font-family: Khmer OS Siemreap; font-weight: 700;">
-                            តម្លៃប្រេងលក់រាយ (ក្នុង ១លីត្រ)</h3>
+                            តម្លៃប្រេងលក់រាយ (ក្នុង ១លីត្រ)</h3>      @foreach ($getTime as $time)<h6 style="color: #007B5F; font-size: 20px;font-family: Khmer OS Siemreap; font-weight: 700;"> {{$time->time_effect }} </h6> @endforeach
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-4">
                         <div class="stats-item  text-center   h-100">
@@ -42,7 +45,7 @@
                             color: #007b5f;
                         ">BVM</span>
                             <ul style="list-style-type:none ;padding: 0;">
-                                @foreach ($getPriceOrdre1 as $price)
+                                @foreach ($getPriceOrdre0 as $price)
                                     <li data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">
                                         <div>
                                             <p
@@ -74,7 +77,7 @@
                             color: #007b5f;
                         " >TELA</span>
                             <ul style="list-style-type:none ;padding: 0;">
-                                @foreach ($getPrice as $price)
+                                @foreach ($getPriceOrdre1 as $price)
                                     <li data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">
                                         <div>
                                             <p

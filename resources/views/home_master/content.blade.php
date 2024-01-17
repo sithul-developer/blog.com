@@ -1,3 +1,6 @@
+@extends('home_master.layouts.index')
+@section('content')
+
 @php
     use App\Models\Posts;
     $getPostCategory = Posts::where('category_id', 5)
@@ -7,16 +10,16 @@
 @endphp
 <!-- ======= Main Content Section ======= -->
 <h3
+
     style="font-size: 20px;
 color: #007B5F;
 background: #f1be48;
 padding: 13px 10px;
 margin-bottom: 25px;
 font-family: Khmer OS Siemreap;">
-    ព័ត៌មានអំពី ប៊ីវីអឹម</h3>
+    ព័ត៌មានអំពី ប៊ីវីអឹម </h3>
 @foreach ($getPosts as $post)
-    <div class="row" style="    padding: 2px 0 35px 0;">
-
+    <div class="row " data-aos="fade-up" style="padding: 2px 0 35px 0;" >
         <div class="col-lg-5">
             <div class="card-img">
                 <img src='{{ $post->getImage() }}'class='img-fluid ' alt="" />
@@ -27,7 +30,7 @@ font-family: Khmer OS Siemreap;">
                     style="font-family: Khmer OS Siemreap;  color: #f1be48;">{{ $post->title }}</a></h4>
             <p style="font-family: Khmer OS Siemreap; color: #8d8d8d;">{{ $post->sub_title }}</p>
             <div
-                style="position: absolute;
+                style="
             bottom: 0;
             display: flex;
             align-items: center;">
@@ -37,7 +40,8 @@ font-family: Khmer OS Siemreap;">
                 <a href=""> <i class="fa-solid fa-calendar-days " style="color: #f1be48; font-size:18px;"> </i> <span
                         style="color: #777777; font-size:14px;padding: 0px 15px 0px 5px;"> {{ $post->created_at->format('d-M-Y') }} </span>
                 </a>
-                <a href=" {{ route('Article', ['id' => $post->id]) }}" class="title">
+                {{-- ['article' => encrypt($article->id)]) --}}
+                <a href=" {{ route('Article', ['id' => encrypt( $post->id) ]) }}" class="title">
                     <button type="submit" class="btn btn-sm text-sm"
                         style="font-family: Khmer OS Siemreap; background: #f1be48; ">អានបន្ត <i
                             class="bi bi-arrow-right"></i></button>
@@ -65,7 +69,7 @@ margin-bottom: 25px;
 font-family: Khmer OS Siemreap;">
     ព័ត៌មានប្រេងជាតិ និងអន្ដរជាតិសំខាន់ៗ</h3>
 @foreach ($getPostCategory as $post)
-    <div class="row">
+    <div class="row"  data-aos="fade-up">
         <div class="col-lg-5">
             <div class="card-img">
                 <img src='{{ $post->getImage() }}'class='img-fluid services-img' alt="" />
@@ -75,7 +79,8 @@ font-family: Khmer OS Siemreap;">
             <h4><a href="service-details.html"
                     style="font-family: Khmer OS Siemreap;  color: #f1be48;">{{ $post->title }}</a></h4>
             <p style="font-family: Khmer OS Siemreap; color: #8d8d8d;">{{ $post->sub_title }}</p>
-            <a href=" {{ route('Article', ['id' => $post->id]) }}" class="title">
+                   {{-- ['article' => encrypt($article->id)]) --}}
+            <a href=" {{ route('Article', ['id' => encrypt($post->id)]) }}" class="title">
                 <button type="submit" class="btn btn-sm text-sm"
                     style="font-family: Khmer OS Siemreap; background: #f1be48; ">អានបន្ត <i
                         class="bi bi-arrow-right"></i></button>
@@ -131,3 +136,4 @@ font-family: Khmer OS Siemreap;">
         transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
 </style>
+@endsection

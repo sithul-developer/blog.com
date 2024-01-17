@@ -25,10 +25,10 @@ class StorePromotionalRequest  extends FormRequest
     {
         return [
             //
-        /*     'title' => 'required', */
-            'order' => 'required',
-            'options' => 'required',
-            'image' => 'required',
+            'title' => 'required|max:100',
+            'order' => 'required|max:100',
+            'options' => 'required|max:100',
+            'image' => 'required|mimes:png,jpeg,gif|max:2048',
         /*     'title' => 'required|string|max:255',
             'sub_title' => 'required|string|max:255',
             'content' => 'required',

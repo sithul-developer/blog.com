@@ -13,10 +13,8 @@ padding: 13px 10px;
 margin-bottom: 25px;
 font-family: Khmer OS Siemreap;"> ចំណេះដឹងទូទៅ</h3>
 @foreach ($getPromotional_center as $promotional)
-
     <div class="row gy-4">
         <img src='{{ $promotional->getImage() }}'class='img-fluid services-img' alt="" />
     </div>
-  
 @endforeach
 {{-- @endif --}}
